@@ -14,9 +14,9 @@ public class InputTests : MonoBehaviour {
     private bool _clampMove;
     
     [SerializeField] private float breakForce;
-    [SerializeField] [Range(1,10)] private float acceleration;
-    [SerializeField] [Range(1,3)] private float sprintMultiplier;
-    [SerializeField] [Range(1,5)] private int maxSpeed;
+    [SerializeField] [Range(1,50)] private float acceleration;
+    [SerializeField] [Range(1,20)] private float sprintMultiplier;
+    [SerializeField] [Range(1,10)] private int maxSpeed;
 
     [SerializeField] private Transform camTf;
     
@@ -51,7 +51,8 @@ public class InputTests : MonoBehaviour {
         
         float velocityHorizontal = new Vector3(_playerRb.velocity.x, 0, _playerRb.velocity.z).magnitude;
         
-        if (velocityHorizontal <= maxSpeed) {
+        //if (velocityHorizontal < maxSpeed) {
+            Debug.Log("MOVE!");
             Vector2 inputVector = _playerInputActions.Player.Movement.ReadValue<Vector2>();
             /*
              * w 0 1
@@ -82,7 +83,13 @@ public class InputTests : MonoBehaviour {
 
             // APPLYING FORCE HERE
             // ------------------------------------------------------------------------------
-            if (_isMoving) _playerRb.AddForce(move * (sprintSpeed * acceleration), ForceMode.VelocityChange);
+            if (_isMoving) {
+                _playerRb.AddForce(move * (sprintSpeed * acceleration), ForceMode.VelocityChange);
+                // Don't go too fast!
+                if (new Vector3(rbPlayer.velocity.x, 0, rbPlayer.velocity.z).magnitude > maxSpeed) {
+                    _playerRb.velocity = new Vector3(move.normalized.x * maxSpeed, rbPlayer.velocity.y,move.normalized.z * maxSpeed);
+                }
+            }
             // ------------------------------------------------------------------------------
 
             else {
@@ -100,7 +107,7 @@ public class InputTests : MonoBehaviour {
 
             }
 
-        }
+        //}
 
     }
 

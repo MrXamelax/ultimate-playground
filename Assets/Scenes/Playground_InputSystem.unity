@@ -664,8 +664,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   breakForce: 0.5
-  acceleration: 1
-  sprintMultiplier: 3
+  acceleration: 10
+  sprintMultiplier: 2
   maxSpeed: 5
   camTf: {fileID: 564291224}
 --- !u!114 &1185714813
